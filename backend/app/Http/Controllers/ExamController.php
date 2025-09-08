@@ -18,14 +18,6 @@ class ExamController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StoreExamRequest $request)
@@ -33,7 +25,7 @@ class ExamController extends Controller
         $data = $request->validated();
         $exam = Exam::create($data);
 
-        return new ExamResource($exam);
+        return response()->json(new ExamResource($exam), 201);
     }
 
     /**
@@ -42,14 +34,6 @@ class ExamController extends Controller
     public function show(Exam $exam)
     {
         return new ExamResource($exam);
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Exam $exam)
-    {
-        //
     }
 
     /**

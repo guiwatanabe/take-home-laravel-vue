@@ -23,8 +23,22 @@ class UpdatePackageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'sometimes|string|max:255',
-            'exams' => 'sometimes|array',
+            'name' => [
+                'sometimes',
+                'string',
+                'max:255',
+                Rule::unique('packages', 'name')->ignore($this->id),
+            ],
+            'observations' => [
+                'sometimes',
+                'string',
+                'max:1000',
+            ],
+            'exams' => [
+                'sometimes',
+                'array',
+                'min:1',
+            ],
             'exams.*' => [
                 'integer',
                 Rule::exists('exams', 'id'),

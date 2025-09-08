@@ -18,22 +18,12 @@ class PackageController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
     public function store(StorePackageRequest $request)
     {
         $data = $request->validated();
-        $package = Package::create([
-            'name' => $data['name'],
-        ]);
+        $package = Package::create($data);
 
         if (! empty($data['exams'])) {
             $package->exams()->sync($data['exams']);
@@ -51,28 +41,18 @@ class PackageController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Package $package)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      */
     public function update(UpdatePackageRequest $request, Package $package)
     {
         $data = $request->validated();
-        if (isset($data['name'])) {
-            $package->update(['name' => $data['name']]);
-        }
+        $package->update($request->validated());
 
         if (array_key_exists('exams', $data)) {
             $package->exams()->sync($data['exams']);
         }
 
-        return new PackageResource($package->load('exams'));
+        return response()->json(new PackageResource($package->load('exams')));
     }
 
     /**

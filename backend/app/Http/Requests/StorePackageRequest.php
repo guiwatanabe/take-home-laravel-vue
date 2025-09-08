@@ -23,8 +23,22 @@ class StorePackageRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255',
-            'exams' => 'sometimes|array',
+            'name' => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('packages', 'name'),
+            ],
+            'observations' => [
+                'sometimes',
+                'string',
+                'max:1000',
+            ],
+            'exams' => [
+                'required',
+                'array',
+                'min:1',
+            ],
             'exams.*' => [
                 'integer',
                 Rule::exists('exams', 'id'),
