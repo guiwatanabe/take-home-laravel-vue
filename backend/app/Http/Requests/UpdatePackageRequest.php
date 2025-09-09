@@ -31,6 +31,7 @@ class UpdatePackageRequest extends FormRequest
             ],
             'observations' => [
                 'sometimes',
+                'nullable',
                 'string',
                 'max:1000',
             ],
