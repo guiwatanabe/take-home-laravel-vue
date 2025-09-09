@@ -7,9 +7,15 @@ RUN apk update && apk add \
     libpng-dev \
     libxml2-dev \
     zip \
-    unzip
+    unzip \
+    freetype-dev \
+    libjpeg-turbo-dev
 
-RUN docker-php-ext-install pdo pdo_mysql
+RUN docker-php-ext-configure gd \
+    --with-freetype \
+    --with-jpeg
+
+RUN docker-php-ext-install gd pdo pdo_mysql
 
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 

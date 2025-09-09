@@ -5,7 +5,8 @@ setup:
 	docker compose up -d
 	sleep 3
 	docker compose exec -it php php artisan key:generate
-	db-refresh
+	docker compose exec -it php php artisan migrate:fresh
+	docker compose exec -it php php artisan db:seed
 	echo 'Project setup complete.'
 
 remove:
